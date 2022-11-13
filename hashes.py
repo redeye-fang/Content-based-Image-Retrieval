@@ -24,9 +24,10 @@ class hashes:
         self.progMsg.text(f"Hashing the images in the given directory...")
         progBar = self.cont.progress(0)
         for i, imageName in enumerate(self.images):
+            imagePath = self.path + "\\" + imageName
             image = Image.open(self.path + "\\" + imageName)
             hashTemp = imagehash.phash(image)
-            self.hashValues.append([imageName, str(hashTemp)])
+            self.hashValues.append([imageName, str(hashTemp), imagePath])
             self.progMsg.text(f"Hashing the images in the given directory... ({i+1}/{len(self.images)})")
             progBar.progress((i+1)/len(self.images))
         

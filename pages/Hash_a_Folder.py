@@ -60,7 +60,7 @@ if hashStatus is not None and hashStatus:
 
     dfFrame, __, exportBtns = cont.columns([10,1,6])
     #Panda Data Frame
-    df = pd.DataFrame(hashValues, columns=["Image", "Hash Value"]) 
+    df = pd.DataFrame(hashValues, columns=["Image", "Hash Value", "Path"]) 
     dfFrame.dataframe(df)
 
     # CSV

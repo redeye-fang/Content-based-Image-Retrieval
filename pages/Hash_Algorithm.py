@@ -18,7 +18,7 @@ st.markdown("# <div style=\"text-align: center;\">Implementing a Hash Algorithm<
 " "
 
 __, cont, __ = st.columns([1,5,1])
-
+ 
 cont.markdown("""
 #### What is image hashing?
 
