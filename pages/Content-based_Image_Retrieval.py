@@ -109,19 +109,20 @@ _, _, _, col, _, _, _ = st.columns([1]*6+[1.18])
 clicked = col.button('Find Similar images')
 
 
-imgCount = len(df["Hash Value"])
+# imgCount = len(df["Hash Value"])
 listSimilarImages = []
 for i in df.index:
     hammingDistance = imagehash.hex_to_hash(df["Hash Value"][i]) - similarImgHash
     if hammingDistance < int(minThresholdEle):
-        listSimilarImages.append(df["Path"][i])
+        listSimilarImages.append([df["Path"][i], hammingDistance ])
 st.markdown(f"<div style=\"text-align: center;\"> Total number of similar images {len(listSimilarImages)}</div>", unsafe_allow_html=True)
 " "
 " "
 __, cont, __ = st.columns([1,8,1])
 for i in listSimilarImages:
-    cont.image(Image.open(i))
-    cont.markdown(i)
+    cont.image(Image.open(i[0]))
+    cont.markdown(i[0])
+    cont.markdown("Hamming Distance = " + str(i[1]))
 # for i in range(imgCount):
 #     cont.image("Res\placeholder.jpg")
 

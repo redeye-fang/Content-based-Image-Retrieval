@@ -5,6 +5,7 @@ import pandas as pd
 import imagehash
 import hashes
 import time
+import glob
 from PIL import Image
 
 # @st.cache(suppress_st_warning=True)
@@ -53,6 +54,7 @@ if path:
     hashStatus, hashValues = x.generateHash()
 
 cont.write(" ")
+
 
 if hashStatus is not None and hashStatus:
     progMsg.text("Hashing Complete!")
