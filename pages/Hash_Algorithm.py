@@ -1,3 +1,4 @@
+import binascii
 import streamlit as st
 import streamlit_nested_layout
 from imutils import paths
@@ -8,7 +9,9 @@ import argparse
 import time
 import sys
 import cv2
+from PIL import Image
 import os
+import base64
 
 # Setting page to utilize Full Body Size
 st.set_page_config(layout="wide")
@@ -44,11 +47,8 @@ x, y, z = cont.columns([3,1,3])
 if image is not None:
     x.image(image)
     x.markdown("***Original Image***")
-    f = open("temp.txt", "wb")
-    f.write(image.getvalue())
-    f.close()
-    image = cv2.imread("temp.txt")
-    greyScaleImg = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    img = Image.open(image)
+    greyScaleImg = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
     z.image(greyScaleImg)
     z.write("***Greyscale Image***")
 
