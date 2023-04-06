@@ -14,7 +14,7 @@ import os
 import base64
 
 # Setting page to utilize Full Body Size
-st.set_page_config(layout="wide")
+st.set_page_config(page_title = "Hash Algorithn", layout="wide")
 
 st.markdown("# <div style=\"text-align: center;\">Implementing a Hash Algorithm</div>", unsafe_allow_html=True)
 " "
