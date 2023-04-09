@@ -1,2 +1,10 @@
-__pycache__
+# Python Virtual Environment
+env
+
+#Datasets
 Res
+output
+# Python Cache
+__pycache__
+
+# Testing Dirs

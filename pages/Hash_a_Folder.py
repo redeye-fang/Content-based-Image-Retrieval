@@ -6,34 +6,8 @@ import imagehash
 import hashes
 import time
 import glob
+import os
 from PIL import Image
-
-# @st.cache(suppress_st_warning=True)
-# def generateHashValues(path):
-#     if path:
-#         files = os.listdir(path)
-#         images = []
-#         flag = False
-
-#         for file in files:
-#             if file.endswith((".jpg", ".png", ".jpeg", "JPG", "PNG", "JPEG")):
-#                 images.append(file)
-        
-#         progMsg.text("Hashing the images in the given directory...")
-#         progBar = cont.progress(0)
-#         cont.write(images)
-
-#         for i, imageName in enumerate(images):
-#             image = Image.open(path + "\\" + imageName)
-#             hashTemp = imagehash.phash(image)
-#             hashValues.append([imageName, str(hashTemp)])
-#             progBar.progress((i+1)/len(images))
-        
-#         if len(images) != 0 and len(hashValues) == len(images):
-#             flag = True
-#         return flag
-
-
 
 # Setting page to utilize Full Body Size
 st.set_page_config(layout="wide")
@@ -44,25 +18,40 @@ st.markdown("# <div style=\"text-align: center;\">Hashing a Directory of Images<
 __, cont, __ = st.columns([1,5,1])
 
 path = cont.text_input("Enter path of directory containing images:")
-cont.button("Hash Folder")
-
+btn = cont.button("Hash Folder")
+method = cont.radio("Choose hashing method:", ('Parallel', 'Serial'))
+hashStatus = False
 progMsg = cont.markdown("")
 
-hashStatus = False
-if path:
-    x = hashes.hashes(path, cont, progMsg)
-    hashStatus, hashValues = x.generateHash()
+
+if method == "Serial" and path and btn  :
+
+    x = hashes.hashes(path)
+    start = time.time()
+    hashStatus, hashValues = x.compute_hashes_serial()
+    end = time.time()
+    progMsg.text("Time taken = " + str(end - start))
+
+elif method == "Parallel" and path and btn:
+
+    x = hashes.hashes(path)
+    start = time.time()
+    hashStatus, hashValues = x.compute_hashes_parallel(num_workers = os.cpu_count())
+    end = time.time()
+    progMsg.text("Time taken = " + str(end - start))
+
 
 cont.write(" ")
 
 
 if hashStatus is not None and hashStatus:
-    progMsg.text("Hashing Complete!")
+    cont.write("✅ Hashing Complete! 😎")
     cont.write(" ")
 
     dfFrame, __, exportBtns = cont.columns([10,1,6])
     #Panda Data Frame
     df = pd.DataFrame(hashValues, columns=["Image", "Hash Value", "Path"]) 
+    dfFrame.write("Hash Table:")
     dfFrame.dataframe(df)
 
     # CSV
